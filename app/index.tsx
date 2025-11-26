@@ -141,6 +141,7 @@ export default function CategoryProductsScreen() {
 
             {/* Rating */}
             <View style={styles.ratingContainer}>
+              <Text style={styles.ratingText}>User's Rating:</Text>
             <Ionicons name="star" size={14} color="#FFB800" />
             <Text style={styles.ratingText}>
                 {item.rating} ({item.reviews})
