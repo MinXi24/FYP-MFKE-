@@ -1,5 +1,5 @@
 import Ionicons from "@expo/vector-icons/Ionicons"
-import React, { useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import {
   Dimensions,
   FlatList,
@@ -13,10 +13,12 @@ import {
   View,
 } from "react-native"
 
+
 const { width } = Dimensions.get("window")
 // Calculate item width for a 2-column grid with 16px outer padding and 12px inner gutter.
 // Total horizontal space taken: (16*2) outer + 12 inner = 44px. This ensures perfect edge alignment.
-const itemWidth = (width - 44) / 2 
+const itemWidth = (width - 44) / 2
+
 
 // 1. Define the Product Interface
 interface Product {
@@ -27,6 +29,7 @@ interface Product {
   image: string
   liked: boolean
 }
+
 
 // Updated MOCK_PRODUCTS
 const MOCK_PRODUCTS: Product[] = [
@@ -80,6 +83,7 @@ const MOCK_PRODUCTS: Product[] = [
   },
 ]
 
+
 export default function CategoryProductsScreen() {
   const [products, setProducts] = useState<Product[]>(MOCK_PRODUCTS)
   const [searchQuery, setSearchQuery] = useState("")
@@ -87,6 +91,7 @@ export default function CategoryProductsScreen() {
   const [sortModal, setSortModal] = useState(false)
   const [selectedSort, setSelectedSort] = useState("newest")
   const [minRating, setMinRating] = useState(0)
+
 
   // Apply search, filter, and sort
   const filteredProducts = useMemo(() => {
@@ -96,6 +101,7 @@ export default function CategoryProductsScreen() {
       return matchesSearch && matchesRating
     })
 
+
     // Sort: only supporting 'newest' and 'rating' now that price is removed
     const sorted = [...filtered].sort((a, b) => {
       if (selectedSort === "rating") return b.rating - a.rating
@@ -103,8 +109,10 @@ export default function CategoryProductsScreen() {
       return 0
     })
 
+
     return sorted
   }, [products, searchQuery, minRating, selectedSort])
+
 
   // Fix 1: Explicitly type 'productId' as 'string'
   const toggleLike = (productId: string) => {
@@ -113,6 +121,7 @@ export default function CategoryProductsScreen() {
     )
   }
 
+
   // Use the Product interface for item type
   const renderProductCard = ({ item }: { item: Product }) => (
     <View style={styles.productCard}>
@@ -120,34 +129,38 @@ export default function CategoryProductsScreen() {
       <View style={styles.imageContainer}>
         <Image source={{ uri: item.image }} style={styles.productImage} />
 
+
         {/* Like Button */}
         <TouchableOpacity style={styles.likeButton} onPress={() => toggleLike(item.id)}>
           <Ionicons name={item.liked ? "heart" : "heart-outline"} size={20} color={item.liked ? "#FF4458" : "#999"} />
         </TouchableOpacity>
       </View>
 
-      {/* --- START: Fixed Height Container for consistent alignment --- 
-        This wrapper uses 'space-between' to push the button block down, 
+
+      {/* --- START: Fixed Height Container for consistent alignment ---
+        This wrapper uses 'space-between' to push the button block down,
         but now the title and rating are correctly grouped as a single block.
       */}
       <View style={styles.productDetailsContainer}>
-        
+       
         {/* Title and Rating GROUP (NEW WRAPPER) */}
-        <View> 
+        <View>
             {/* Product Info */}
             <Text style={styles.productName} numberOfLines={2}>
             {item.name}
             </Text>
 
+
             {/* Rating */}
             <View style={styles.ratingContainer}>
-              <Text style={styles.ratingText}>User's Rating:</Text>
+              <Text style={styles.ratingText}>User&#39;s Rating:</Text>
             <Ionicons name="star" size={14} color="#FFB800" />
             <Text style={styles.ratingText}>
                 {item.rating} ({item.reviews})
             </Text>
             </View>
         </View>
+
 
         {/* Swap Button (Pushed to bottom) */}
         <TouchableOpacity style={styles.swapButton}>
@@ -157,6 +170,7 @@ export default function CategoryProductsScreen() {
       {/* --- END: Fixed Height Container --- */}
     </View>
   )
+
 
   return (
     <View style={styles.container}>
@@ -176,6 +190,7 @@ export default function CategoryProductsScreen() {
         </View>
       </View>
 
+
       {/* Search Bar */}
       <View style={styles.searchContainer}>
         <Ionicons name="search" size={18} color="#999" />
@@ -188,8 +203,10 @@ export default function CategoryProductsScreen() {
         />
       </View>
 
+
       {/* Item Count */}
       <Text style={styles.itemCount}>{filteredProducts.length} Items</Text>
+
 
       {/* Product Grid */}
       <FlatList
@@ -200,8 +217,9 @@ export default function CategoryProductsScreen() {
         columnWrapperStyle={styles.columnWrapper}
         contentContainerStyle={styles.listContent}
         // Changing to true to allow scrolling the product list
-        scrollEnabled={true} 
+        scrollEnabled={true}
       />
+
 
       {/* Filter and Sort Footer */}
       <View style={styles.footer}>
@@ -210,13 +228,16 @@ export default function CategoryProductsScreen() {
           <Text style={styles.footerButtonText}>Filter</Text>
         </TouchableOpacity>
 
+
         <View style={styles.footerDivider} />
+
 
         <TouchableOpacity style={styles.footerButton} onPress={() => setSortModal(true)}>
           <Ionicons name="swap-vertical-outline" size={20} color="#666" />
           <Text style={styles.footerButtonText}>Sort By</Text>
         </TouchableOpacity>
       </View>
+
 
       {/* Filter Modal */}
       <Modal visible={filterModal} animationType="slide" transparent onRequestClose={() => setFilterModal(false)}>
@@ -229,9 +250,10 @@ export default function CategoryProductsScreen() {
               </TouchableOpacity>
             </View>
 
+
             <ScrollView style={styles.modalBody}>
               {/* Removed Price Range section */}
-              
+             
               <Text style={styles.filterLabel}>Minimum Rating</Text>
               <View style={styles.ratingFilter}>
                 {[0, 3, 3.5, 4, 4.5].map((rating) => (
@@ -248,12 +270,14 @@ export default function CategoryProductsScreen() {
               </View>
             </ScrollView>
 
+
             <TouchableOpacity style={styles.applyButton} onPress={() => setFilterModal(false)}>
               <Text style={styles.applyButtonText}>Apply Filters</Text>
             </TouchableOpacity>
           </View>
         </View>
       </Modal>
+
 
       {/* Sort Modal */}
       <Modal visible={sortModal} animationType="slide" transparent onRequestClose={() => setSortModal(false)}>
@@ -265,6 +289,7 @@ export default function CategoryProductsScreen() {
                 <Ionicons name="close" size={24} color="#000" />
               </TouchableOpacity>
             </View>
+
 
             <ScrollView style={styles.modalBody}>
               {/* Removed price sorting options */}
@@ -293,6 +318,7 @@ export default function CategoryProductsScreen() {
     </View>
   )
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -395,7 +421,7 @@ const styles = StyleSheet.create({
   // NEW STYLE: Container to enforce a consistent height for the details area.
   productDetailsContainer: {
     // Height calculated to comfortably fit 2 lines of text, rating, and the swap button.
-    minHeight: 110, 
+    minHeight: 110,
     justifyContent: 'space-between',
   },
   productName: {
@@ -534,7 +560,7 @@ const styles = StyleSheet.create({
   },
   sortOptionActive: {
     // Note: Applying background color here for visual feedback.
-    backgroundColor: "#E0F2F1", 
+    backgroundColor: "#E0F2F1",
   },
   sortOptionText: {
     fontSize: 14,
@@ -546,3 +572,4 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
 })
+
