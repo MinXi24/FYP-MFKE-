@@ -25,7 +25,6 @@ interface Product {
   rating: number
   reviews: number
   image: string
-  trending: boolean
   liked: boolean
 }
 
@@ -37,7 +36,6 @@ const MOCK_PRODUCTS: Product[] = [
     rating: 4.3,
     reviews: 41,
     image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=300&h=300&fit=crop",
-    trending: false,
     liked: false,
   },
   {
@@ -46,7 +44,6 @@ const MOCK_PRODUCTS: Product[] = [
     rating: 4.1,
     reviews: 87,
     image: "https://images.unsplash.com/photo-1589992595173-cf793772b0b7?w=300&h=300&fit=crop",
-    trending: false,
     liked: false,
   },
   {
@@ -55,7 +52,6 @@ const MOCK_PRODUCTS: Product[] = [
     rating: 4.3,
     reviews: 41,
     image: "https://images.unsplash.com/photo-1570783830852-1b2f30bb2cff?w=300&h=300&fit=crop",
-    trending: false,
     liked: false,
   },
   {
@@ -64,7 +60,6 @@ const MOCK_PRODUCTS: Product[] = [
     rating: 4.8,
     reviews: 692,
     image: "https://images.unsplash.com/photo-1596362776919-f10e4e75c3d1?w=300&h=300&fit=crop",
-    trending: true,
     liked: false,
   },
   {
@@ -73,7 +68,6 @@ const MOCK_PRODUCTS: Product[] = [
     rating: 4.5,
     reviews: 120,
     image: "https://images.unsplash.com/photo-1596185605138-79249dd5a22f?w=300&h=300&fit=crop",
-    trending: true,
     liked: false,
   },
   {
@@ -82,7 +76,6 @@ const MOCK_PRODUCTS: Product[] = [
     rating: 4.2,
     reviews: 356,
     image: "https://images.unsplash.com/photo-1602810314498-2c5fc9d15cd0?w=300&h=300&fit=crop",
-    trending: false,
     liked: false,
   },
 ]
@@ -127,13 +120,6 @@ export default function CategoryProductsScreen() {
       <View style={styles.imageContainer}>
         <Image source={{ uri: item.image }} style={styles.productImage} />
 
-        {/* Trending Badge */}
-        {item.trending && (
-          <View style={styles.trendingBadge}>
-            <Text style={styles.trendingText}>Trending</Text>
-          </View>
-        )}
-
         {/* Like Button */}
         <TouchableOpacity style={styles.likeButton} onPress={() => toggleLike(item.id)}>
           <Ionicons name={item.liked ? "heart" : "heart-outline"} size={20} color={item.liked ? "#FF4458" : "#999"} />
@@ -155,6 +141,7 @@ export default function CategoryProductsScreen() {
 
             {/* Rating */}
             <View style={styles.ratingContainer}>
+              <Text style={styles.ratingText}>User's Rating:</Text>
             <Ionicons name="star" size={14} color="#FFB800" />
             <Text style={styles.ratingText}>
                 {item.rating} ({item.reviews})
