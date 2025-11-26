@@ -325,6 +325,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
     color: "#000",
+    fontFamily: "Georgia",
   },
   headerIcons: {
     flexDirection: "row",
@@ -415,6 +416,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     color: "#000",
     marginBottom: 6, // Added small margin for better spacing within the title/rating group
+    fontFamily: "Times New Roman",
   },
   ratingContainer: {
     flexDirection: "row",
